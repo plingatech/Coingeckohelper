@@ -1,8 +1,12 @@
 import const
 import httpReq
 
-def getTokenDetail(tokenId) :
+def getTokenDetailNyTokenId(tokenId: str) :
     url = f"{const.coingeckoApiPath}/coins/{tokenId}"
+    return httpReq.send_get_request(url)
+
+def getTokenDetailNyNetworkAndContract(platform: str,contract: str) :
+    url = f"{const.coingeckoApiPath}/coins/{platform}/contract/{contract}"
     return httpReq.send_get_request(url)
 
 def getCoins() :

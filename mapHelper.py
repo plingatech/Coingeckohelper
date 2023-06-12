@@ -172,6 +172,23 @@ def getContractOfToken(networkId,coinId):
                 tokens = network["tokens"]
                 if coinId in tokens:
                     return tokens[coinId]
+
+def getCoinIdOfContract(contract: str):
+    for network in const.coinMap:
+        if "tokens" in network:
+            tokens = network["tokens"]
+            for key,value in tokens.items():
+                if contract == value:
+                    return key
+                
+def getNetworkOfContract(contract: str):
+    for network in const.coinMap:
+        if "tokens" in network:
+            tokens = network["tokens"]
+            for value in tokens.values():
+                if contract == value:
+                    return network["network"]
+
                 
 
 def mustCoinIdAdd(coinId):
@@ -246,6 +263,7 @@ def generateAddressForCoingeckoPrice(platform : str, contractsAdr : str,curencie
     for index, contract in enumerate(contracts):
         contracts[index] = getBscContractMapToContract(contract)
     return  f"/simple/token_price/{platform}?vs_currencies={curencies}&include_market_cap=true&contract_addresses=" + ",".join(contracts)
+
 
 
     

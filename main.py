@@ -30,7 +30,7 @@ app = FastAPI()
 #print(mapHelper.mustCoinIdAdd("binance-usd"))
 #print(mapHelper.correctCoinList(coingeckoApi.getCoins()))
 #print(mapHelper.correctCoingeckoCoin("tether",coingeckoApi.getTokenDetail("tether")))
-#print(mapHelper.generateAddressForCoingeckoPrice("0xbD07cf23A43f13078716A015F3Cc27F7a1661e65"))
+print(mapHelper.getNetworkOfContract("0xbD07cf23A43f13078716A015F3Cc27F7a1661e65"))
 
 
 @app.get("/api/v1/coins/list")
@@ -42,8 +42,15 @@ def getCoinListWithPlatform(include_platform : str):
     return JSONResponse(content=jsonable_encoder(result), status_code=status.HTTP_201_CREATED)
 
 @app.get("/api/v1/coins/{id}")
-def getCoin(id : str):
-    result = mapHelper.correctCoingeckoCoin(id,coingeckoApi.getTokenDetail(id))
+def getCoinById(id : str):
+    result = mapHelper.correctCoingeckoCoin(id,coingeckoApi.getTokenDetailNyTokenId(id))
+    return JSONResponse(content=jsonable_encoder(result), status_code=status.HTTP_201_CREATED)
+
+
+@app.get("/api/v3/coins/{platform}/contract/{contract}")
+def getCoinByNetworkAndContract(platform : str,contract: str):
+    coinId = mapHelper.getCoinIdOfContract(contract)
+    result = mapHelper.correctCoingeckoCoin(id,coingeckoApi.getTokenDetailNyTokenId(id))
     return JSONResponse(content=jsonable_encoder(result), status_code=status.HTTP_201_CREATED)
 
 
