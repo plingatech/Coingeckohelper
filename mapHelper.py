@@ -97,7 +97,7 @@ def dict_to_coin(d):
     return coin
 
 def getCoinsJson(coins):
-    return remove_backticks(json.dumps(coins, default=lambda o: asdict(o), indent=4, ensure_ascii=False))
+    return json.dumps(coins, default=lambda o: asdict(o), indent=4, ensure_ascii=False)
     
 
 def remove_backticks(json_str):
@@ -198,7 +198,7 @@ def addNetworkAndContractToCoins(coins: List[Coin]):
 def correctCoinList(jsonStr: str) :
     coins = getCoinList(jsonStr)
     coins = addNetworkAndContractToCoins(coins)
-    return getCoinsJson(coins)
+    return remove_backticks(getCoinsJson(coins))
 
 def getAllcontractsOfAllNetworks():
     contracts = []
