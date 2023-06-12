@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
+from fastapi import status
 
 import logging
 from logging.handlers import SysLogHandler
@@ -33,9 +35,9 @@ print(mapHelper.generateAddressForCoingeckoPrice("0xbD07cf23A43f13078716A015F3Cc
 def getCoinListWithPlatform(include_platform : str):
     logger.info(f"platform is {include_platform}")
     result = mapHelper.correctCoinList(coingeckoApi.getCoins())
-    cleaned_json_str = jsonable_encoder(result)
-    logger.info(result)
-    return cleaned_json_str
+    #cleaned_json_str = jsonable_encoder(result)
+    #logger.info(result)
+    return JSONResponse(content=jsonable_encoder(result), status_code=status.HTTP_201_CREATED)
 
 @app.get("/api/v1/coins/{id}")
 def getCoin(id : str):

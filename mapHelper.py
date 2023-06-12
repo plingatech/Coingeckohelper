@@ -208,7 +208,7 @@ def addNetworkAndContractToCoins(coins: List[Coin]):
 def correctCoinList(jsonStr: str) :
     coins = getCoinList(jsonStr)
     coins = addNetworkAndContractToCoins(coins)
-    return remove_backticks(getCoinsJson(coins))
+    return coins
 
 def getAllcontractsOfAllNetworks():
     contracts = []
