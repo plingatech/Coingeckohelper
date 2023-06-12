@@ -95,7 +95,8 @@ def dict_to_coin(d):
     return coin
 
 def getCoinsJson(coins):
-    return json.dumps(coins, default=coin_to_dict, indent=4,ensure_ascii=False)
+    return json.dumps(coins, default=coin_to_dict, indent=4, ensure_ascii=False)
+
 
 def getCoinObjectFronJson(jsonStr : str):
     if (jsonStr):
