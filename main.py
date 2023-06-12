@@ -50,8 +50,7 @@ def getCoinById(id : str):
 @app.get("/api/v1/coins/{platform}/contract/{contract}")
 def getCoinByNetworkAndContract(platform : str,contract: str):
     coinId = mapHelper.getCoinIdOfContract(contract)
-    logger.info("Coinid is " + coinId)
-    result = mapHelper.correctCoingeckoCoin(id,coingeckoApi.getTokenDetailNyTokenId(coinId))
+    result = mapHelper.correctCoingeckoCoin(coinId,coingeckoApi.getTokenDetailNyTokenId(coinId))
     return JSONResponse(content=jsonable_encoder(result), status_code=status.HTTP_201_CREATED)
 
 
