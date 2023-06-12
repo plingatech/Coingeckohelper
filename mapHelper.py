@@ -245,7 +245,7 @@ def generateAddressForCoingeckoPrice(platform : str, contractsAdr : str,curencie
     contracts = contractsAdr.split(",")
     for index, contract in enumerate(contracts):
         contracts[index] = getBscContractMapToContract(contract)
-    return  const.coingeckoApiPath + f"/simple/token_price/{platform}?vs_currencies={curencies}&include_market_cap=true&contract_addresses=" + ",".join(contracts)
+    return  f"/simple/token_price/{platform}?vs_currencies={curencies}&include_market_cap=true&contract_addresses=" + ",".join(contracts)
 
 
     
