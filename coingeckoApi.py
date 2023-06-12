@@ -16,3 +16,8 @@ def getCoins() :
 def getCoinPrice(url: str):
     url = f"{const.coingeckoApiPath}/{url}"
     return httpReq.send_get_request(url)
+
+
+def getSimpleCoinList():
+    url = f"{const.coingeckoApiPath}/coins/list"
+    return httpReq.send_get_request(url)

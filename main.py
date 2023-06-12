@@ -34,12 +34,13 @@ print(mapHelper.getNetworkOfContract("0xbD07cf23A43f13078716A015F3Cc27F7a1661e65
 
 
 @app.get("/api/v1/coins/list")
-def getCoinListWithPlatform(include_platform : str):
-    logger.info(f"platform is {include_platform}")
-    result = mapHelper.correctCoinList(coingeckoApi.getCoins())
-    #cleaned_json_str = jsonable_encoder(result)
-    #logger.info(result)
-    return JSONResponse(content=jsonable_encoder(result), status_code=status.HTTP_201_CREATED)
+def getCoinListWithPlatform(include_platform = None):
+    if include_platform:
+        result = mapHelper.correctCoinList(coingeckoApi.getCoins())
+        return JSONResponse(content=jsonable_encoder(result), status_code=status.HTTP_201_CREATED)
+    else:
+        result = coingeckoApi.getSimpleCoinList()
+        return Response(content=result, media_type='application/json')
 
 @app.get("/api/v1/coins/{id}")
 def getCoinById(id : str):
