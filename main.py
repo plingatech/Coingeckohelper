@@ -34,6 +34,7 @@ def getCoinListWithPlatform(include_platform : str):
     logger.info(f"platform is {include_platform}")
     result = mapHelper.correctCoinList(coingeckoApi.getCoins())
     cleaned_json_str = jsonable_encoder(result)
+    logger.info(cleaned_json_str)
     return cleaned_json_str
 
 @app.get("/api/v1/coins/{id}")
