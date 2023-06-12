@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 import logging
+from logging.handlers import SysLogHandler
 import const
 import coingeckoApi
 import mapHelper
