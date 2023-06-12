@@ -101,7 +101,7 @@ def getCoinsJson(coins):
     
 
 def remove_backticks(json_str):
-    json_str = json_str[1:-1]
+    json_str = json_str[5:-5]
     return json_str
 
 def getCoinObjectFronJson(jsonStr : str):
