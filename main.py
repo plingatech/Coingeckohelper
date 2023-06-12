@@ -33,6 +33,11 @@ app = FastAPI()
 print(mapHelper.getNetworkOfContract("0xbD07cf23A43f13078716A015F3Cc27F7a1661e65"))
 
 
+@app.get("/api/v1/exchange_rates")
+def getExchangerate():
+    result = coingeckoApi.getExchangerate()
+    return Response(content=result, media_type='application/json')
+
 @app.get("/api/v1/coins/list")
 def getCoinListWithPlatform(include_platform = None):
     if include_platform:
