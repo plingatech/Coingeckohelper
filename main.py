@@ -4,8 +4,17 @@ import const
 import coingeckoApi
 import mapHelper
 
-logger = logging.getLogger(const.logFile)
+logger = logging.getLogger('my_logger')
 logger.setLevel(logging.INFO)
+handler = SysLogHandler(address='/dev/log')
+handler.setLevel(logging.DEBUG)
+
+# تنظیم فرمت پیام‌های لاگ
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+
+# اضافه کردن handler به logger
+logger.addHandler(handler)
 
 
 
@@ -17,8 +26,9 @@ app = FastAPI()
 print(mapHelper.generateAddressForCoingeckoPrice("0xbD07cf23A43f13078716A015F3Cc27F7a1661e65"))
 
 
-@app.get("/api/v1/coins/list?include_platform=true")
+@app.get("/api/v1/coins/list")
 async def getCoinListWithPlatform(include_platform : str):
+
     result = await mapHelper.correctCoinList(coingeckoApi.getCoins())
     return result
 
