@@ -101,8 +101,17 @@ def getCoinsJson(coins):
     
 
 def remove_backticks(json_str):
-    json_str = json_str[5:-5]
+    if json_str.startswith('"') and json_str.endswith('"'):
+        json_str = json_str[1:-1]
     return json_str
+
+def clean_json(json_str):
+    try:
+        json_data = json.loads(json_str)
+        cleaned_json_str = json.dumps(json_data, ensure_ascii=False)
+        return cleaned_json_str
+    except json.JSONDecodeError:
+        return json_str
 
 def getCoinObjectFronJson(jsonStr : str):
     if (jsonStr):
@@ -197,7 +206,7 @@ def addNetworkAndContractToCoins(coins: List[Coin]):
 def correctCoinList(jsonStr: str) :
     coins = getCoinList(jsonStr)
     coins = addNetworkAndContractToCoins(coins)
-    return remove_backticks(getCoinsJson(coins))
+    return clean_json(getCoinsJson(coins))
 
 def getAllcontractsOfAllNetworks():
     contracts = []
