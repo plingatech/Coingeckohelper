@@ -28,9 +28,9 @@ print(mapHelper.generateAddressForCoingeckoPrice("0xbD07cf23A43f13078716A015F3Cc
 
 
 @app.get("/api/v1/coins/list")
-async def getCoinListWithPlatform(include_platform : str):
+def getCoinListWithPlatform(include_platform : str):
     logger.info(f"platform is {include_platform}")
-    result = await mapHelper.correctCoinList(coingeckoApi.getCoins())
+    result = mapHelper.correctCoinList(coingeckoApi.getCoins())
     return result
 
 @app.get("/api/v1/coins/{id}")
