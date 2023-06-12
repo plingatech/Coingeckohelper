@@ -1,4 +1,6 @@
 from fastapi import FastAPI
+from fastapi import Response
+from datetime import date
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from fastapi import status
@@ -52,7 +54,7 @@ def getCoin(platform, vs_currencies, contract_addresses):
     logger.info(queryStr)
     rawRes = coingeckoApi.getCoinPrice(queryStr)
     result = mapHelper.chagePriceResultForblockscout(rawRes)
-    return JSONResponse(content=jsonable_encoder(result), status_code=status.HTTP_201_CREATED)
+    return Response(content=result, media_type='application/json')
 
 
 
