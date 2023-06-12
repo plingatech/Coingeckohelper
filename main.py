@@ -28,7 +28,7 @@ app = FastAPI()
 #print(mapHelper.mustCoinIdAdd("binance-usd"))
 #print(mapHelper.correctCoinList(coingeckoApi.getCoins()))
 #print(mapHelper.correctCoingeckoCoin("tether",coingeckoApi.getTokenDetail("tether")))
-print(mapHelper.generateAddressForCoingeckoPrice("0xbD07cf23A43f13078716A015F3Cc27F7a1661e65"))
+#print(mapHelper.generateAddressForCoingeckoPrice("0xbD07cf23A43f13078716A015F3Cc27F7a1661e65"))
 
 
 @app.get("/api/v1/coins/list")
