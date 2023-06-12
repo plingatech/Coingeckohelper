@@ -2,6 +2,8 @@ import const
 import json
 from typing import List
 from dataclasses import dataclass
+from dataclasses import asdict
+
 
 
 @dataclass
@@ -95,7 +97,8 @@ def dict_to_coin(d):
     return coin
 
 def getCoinsJson(coins):
-    return json.dumps(coins, default=coin_to_dict, separators=(',', ':'), ensure_ascii=False)
+    return json.dumps(coins, default=lambda o: asdict(o), indent=4, ensure_ascii=False)
+    
 
 
 
