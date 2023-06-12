@@ -97,10 +97,13 @@ def dict_to_coin(d):
     return coin
 
 def getCoinsJson(coins):
-    return json.dumps(coins, default=lambda o: asdict(o), indent=4, ensure_ascii=False)
+    return remove_backticks(json.dumps(coins, default=lambda o: asdict(o), indent=4, ensure_ascii=False))
     
 
-
+def remove_backticks(json_str):
+    if json_str.startswith('"') and json_str.endswith('"'):
+        json_str = json_str[1:-1]
+    return json_str
 
 def getCoinObjectFronJson(jsonStr : str):
     if (jsonStr):
