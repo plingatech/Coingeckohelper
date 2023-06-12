@@ -132,7 +132,7 @@ def correctCoingeckoCoin(coinId : str,jsonStr : str):
         cl = getCoinListInDetailForAdd(coinId)
         coin.platforms.update(cs)
         coin.detail_platforms.update(cl)
-        return convertCoinObjectToJson(coin)
+        return coin
     else:
         return jsonStr
     
@@ -236,11 +236,16 @@ def chagePriceResultForblockscout(res: str):
         res = res.replace(value,key)
     return res
 
-def generateAddressForCoingeckoPrice(contractsAdr : str):
+def chagePriceResultForCoinGecko(res: str):
+    for key,value in const.contractMapWithBsc.items():
+        res = res.replace(key,value)
+    return res
+
+def generateAddressForCoingeckoPrice(platform : str, contractsAdr : str,curencies : str):
     contracts = contractsAdr.split(",")
     for index, contract in enumerate(contracts):
         contracts[index] = getBscContractMapToContract(contract)
-    return  const.coingeckoApiPath + "/simple/token_price/binance-smart-chain?vs_currencies=usd&include_market_cap=true&contract_addresses=" + ",".join(contracts)
+    return  const.coingeckoApiPath + f"/simple/token_price/{platform}?vs_currencies={curencies}&include_market_cap=true&contract_addresses=" + ",".join(contracts)
 
 
     

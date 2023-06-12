@@ -41,14 +41,17 @@ def getCoinListWithPlatform(include_platform : str):
 
 @app.get("/api/v1/coins/{id}")
 def getCoin(id : str):
-    result = mapHelper.correctCoingeckoCoin("tether",coingeckoApi.getTokenDetail("tether"))
-    return result
+    result = mapHelper.correctCoingeckoCoin(id,coingeckoApi.getTokenDetail(id))
+    return JSONResponse(content=jsonable_encoder(result), status_code=status.HTTP_201_CREATED)
 
 
-@app.get("/api/v1/simple/token_price/{platform}?vs_currencies={currency}&include_market_cap=true&contract_addresses={joined_addresses}")
-async def getCoin(platform, vs_currencies, contract_addresses):
-    result = await mapHelper.correctCoingeckoCoin("tether",coingeckoApi.getTokenDetail("tether"))
-    return result
+@app.get("/api/v1/simple/token_price/{platform}")
+def getCoin(platform, vs_currencies, contract_addresses):
+    contract_addresses = mapHelper.chagePriceResultForCoinGecko(contract_addresses)
+    queryStr = mapHelper.generateAddressForCoingeckoPrice(const.usedPlatform,contract_addresses,vs_currencies)
+    rawRes = coingeckoApi.getCoinPrice(queryStr)
+    result = mapHelper.chagePriceResultForblockscout(rawRes)
+    return JSONResponse(content=jsonable_encoder(result), status_code=status.HTTP_201_CREATED)
 
 
 
