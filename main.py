@@ -49,6 +49,7 @@ def getCoin(id : str):
 def getCoin(platform, vs_currencies, contract_addresses):
     contract_addresses = mapHelper.chagePriceResultForCoinGecko(contract_addresses)
     queryStr = mapHelper.generateAddressForCoingeckoPrice(const.usedPlatform,contract_addresses,vs_currencies)
+    logger.info(queryStr)
     rawRes = coingeckoApi.getCoinPrice(queryStr)
     result = mapHelper.chagePriceResultForblockscout(rawRes)
     return JSONResponse(content=jsonable_encoder(result), status_code=status.HTTP_201_CREATED)
