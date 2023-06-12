@@ -34,8 +34,8 @@ def getCoinListWithPlatform(include_platform : str):
     return result
 
 @app.get("/api/v1/coins/{id}")
-async def getCoin(id : str):
-    result = await mapHelper.correctCoingeckoCoin("tether",coingeckoApi.getTokenDetail("tether"))
+def getCoin(id : str):
+    result = mapHelper.correctCoingeckoCoin("tether",coingeckoApi.getTokenDetail("tether"))
     return result
 
 
