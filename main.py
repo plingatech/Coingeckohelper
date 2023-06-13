@@ -4,6 +4,7 @@ from datetime import date
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from fastapi import status
+import json
 
 import logging
 from logging.handlers import SysLogHandler
@@ -51,7 +52,7 @@ def getCoinListWithPlatform(include_platform = None):
             return Response(content=const.cache["CoinListWithPlatform"], media_type='application/json')
         else:
             result = mapHelper.correctCoinList(coingeckoApi.getCoins())
-            const.cache["CoinListWithPlatform"] = jsonable_encoder(result)
+            const.cache["CoinListWithPlatform"] = json.dumps(result)
             return JSONResponse(content=jsonable_encoder(result), status_code=status.HTTP_200_OK)
     else:
         if "CoinList" in const.cache:
