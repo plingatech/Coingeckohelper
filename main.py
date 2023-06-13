@@ -49,7 +49,7 @@ def getCoinListWithPlatform(include_platform = None):
     if include_platform:
         if "CoinListWithPlatform" in const.cache:
             logger.info ("return CoinList with platform from cache")
-            res = const.cache["CoinListWithPlatform"]
+            res = const.cache.get("CoinListWithPlatform")
             logger.info("res is : " + res)
             return Response(content=res, media_type='application/json')
         else:
