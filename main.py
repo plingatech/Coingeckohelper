@@ -72,7 +72,7 @@ def getCoinById(id : str):
         return JSONResponse(content=jsonable_encoder(const.cache[key]), status_code=status.HTTP_200_OK)
     else:
         result = mapHelper.correctCoingeckoCoin(id,coingeckoApi.getTokenDetailNyTokenId(id))
-        const.cache[key] = jsonable_encoder(const.cache[key])
+        const.cache[key] = jsonable_encoder(result)
         return JSONResponse(content=jsonable_encoder(result), status_code=status.HTTP_200_OK)
 
 
@@ -85,7 +85,7 @@ def getCoinByNetworkAndContract(platform : str,contract: str):
     else:
         coinId = mapHelper.getCoinIdOfContract(contract)
         result = mapHelper.correctCoingeckoCoin(coinId,coingeckoApi.getTokenDetailNyTokenId(coinId))
-        const.cache[key] = result
+        const.cache[key] = jsonable_encoder(result)
         return JSONResponse(content=jsonable_encoder(result), status_code=status.HTTP_200_OK)
 
 
