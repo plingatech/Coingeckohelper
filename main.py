@@ -54,7 +54,7 @@ def getCoinListWithPlatform(include_platform = None):
             return Response(content=res, media_type='application/json')
         else:
             result = mapHelper.correctCoinList(coingeckoApi.getCoins())
-            const.cache["CoinListWithPlatform"] = json.dumps(result)
+            const.cache["CoinListWithPlatform"] = jsonable_encoder(result)
             return JSONResponse(content=jsonable_encoder(result), status_code=status.HTTP_200_OK)
     else:
         if "CoinList" in const.cache:
