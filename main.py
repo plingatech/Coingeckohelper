@@ -35,17 +35,32 @@ app = FastAPI()
 
 @app.get("/api/v1/exchange_rates")
 def getExchangerate():
-    result = coingeckoApi.getExchangerate()
-    return Response(content=result, media_type='application/json')
+    if "Exchangerate" in const.cache:
+        logger.info ("return exchangerate from cache")
+        return Response(content=const.cache["Exchangerate"], media_type='application/json')
+    else:
+        result = coingeckoApi.getExchangerate()
+        const.cache["Exchangerate"] = result
+        return Response(content=result, media_type='application/json')
 
 @app.get("/api/v1/coins/list")
 def getCoinListWithPlatform(include_platform = None):
     if include_platform:
-        result = mapHelper.correctCoinList(coingeckoApi.getCoins())
-        return JSONResponse(content=jsonable_encoder(result), status_code=status.HTTP_200_OK)
+        if "CoinListWithPlatform" in const.cache:
+            logger.info ("return CoinList with platform from cache")
+            return Response(content=const.cache["CoinListWithPlatform"], media_type='application/json')
+        else:
+            result = mapHelper.correctCoinList(coingeckoApi.getCoins())
+            const.cache["CoinListWithPlatform"] = jsonable_encoder(result)
+            return JSONResponse(content=jsonable_encoder(result), status_code=status.HTTP_200_OK)
     else:
-        result = coingeckoApi.getSimpleCoinList()
-        return Response(content=result, media_type='application/json')
+        if "CoinList" in const.cache:
+            logger.info ("return CoinList from cache")
+            return Response(content=const.cache["CoinList"], media_type='application/json')
+        else:
+            result = coingeckoApi.getSimpleCoinList()
+            const.cache["CoinList"] = result
+            return Response(content=result, media_type='application/json')
 
 @app.get("/api/v1/coins/{id}")
 def getCoinById(id : str):
