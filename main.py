@@ -91,12 +91,17 @@ def getCoinByNetworkAndContract(platform : str,contract: str):
 
 @app.get("/api/v1/simple/token_price/{platform}")
 def getCoin(platform, vs_currencies, contract_addresses):
-    contract_addresses = mapHelper.chagePriceResultForCoinGecko(contract_addresses)
-    queryStr = mapHelper.generateAddressForCoingeckoPrice(const.usedPlatform,contract_addresses,vs_currencies)
-    logger.info(queryStr)
-    rawRes = coingeckoApi.getCoinPrice(queryStr)
-    result = mapHelper.chagePriceResultForblockscout(rawRes)
-    return Response(content=result, media_type='application/json')
+    key = f"coin_platform_Currency_contract_{platform}_{vs_currencies}_{contract_addresses}"
+    if key in const.cache:
+        logger.info (f"return coin_platform_Currency_contract {platform} {vs_currencies} {contract_addresses} from cache")
+        return JSONResponse(content=jsonable_encoder(const.cache[key]), status_code=status.HTTP_200_OK)
+    else:
+        contract_addresses = mapHelper.chagePriceResultForCoinGecko(contract_addresses)
+        queryStr = mapHelper.generateAddressForCoingeckoPrice(const.usedPlatform,contract_addresses,vs_currencies)
+        rawRes = coingeckoApi.getCoinPrice(queryStr)
+        result = mapHelper.chagePriceResultForblockscout(rawRes)
+        const.cache[key] = jsonable_encoder(result)
+        return Response(content=result, media_type='application/json')
 
 
 
