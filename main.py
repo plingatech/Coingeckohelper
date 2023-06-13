@@ -38,7 +38,7 @@ app = FastAPI()
 def getExchangerate():
     if "Exchangerate" in const.cache:
         logger.info ("return exchangerate from cache")
-        return Response(content=const.cache["Exchangerate"], media_type='application/json')
+        return JSONResponse(content=jsonable_encoder(const.cache["Exchangerate"]), status_code=status.HTTP_200_OK)
     else:
         result = coingeckoApi.getExchangerate()
         const.cache["Exchangerate"] = result
@@ -50,7 +50,6 @@ def getCoinListWithPlatform(include_platform = None):
         if "CoinListWithPlatform" in const.cache:
             logger.info ("return CoinList with platform from cache")
             res = const.cache.get("CoinListWithPlatform")
-            logger.info(f"res is : {res}")
             return JSONResponse(content=jsonable_encoder(res), status_code=status.HTTP_200_OK)
         else:
             result = mapHelper.correctCoinList(coingeckoApi.getCoins())
@@ -59,7 +58,7 @@ def getCoinListWithPlatform(include_platform = None):
     else:
         if "CoinList" in const.cache:
             logger.info ("return CoinList from cache")
-            return Response(content=const.cache["CoinList"], media_type='application/json')
+            return JSONResponse(content=jsonable_encoder(const.cache["CoinList"]), status_code=status.HTTP_200_OK)
         else:
             result = coingeckoApi.getSimpleCoinList()
             const.cache["CoinList"] = result
