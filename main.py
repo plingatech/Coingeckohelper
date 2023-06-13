@@ -94,7 +94,7 @@ def getCoin(platform, vs_currencies, contract_addresses):
     key = f"coin_platform_Currency_contract_{platform}_{vs_currencies}_{contract_addresses}"
     if key in const.cache:
         logger.info (f"return coin_platform_Currency_contract {platform} {vs_currencies} {contract_addresses} from cache")
-        return JSONResponse(content=jsonable_encoder(const.cache[key]), status_code=status.HTTP_200_OK)
+        return Response(content=const.cache[key], media_type='application/json')
     else:
         contract_addresses = mapHelper.chagePriceResultForCoinGecko(contract_addresses)
         queryStr = mapHelper.generateAddressForCoingeckoPrice(const.usedPlatform,contract_addresses,vs_currencies)
