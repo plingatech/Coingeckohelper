@@ -66,15 +66,27 @@ def getCoinListWithPlatform(include_platform = None):
 
 @app.get("/api/v1/coins/{id}")
 def getCoinById(id : str):
-    result = mapHelper.correctCoingeckoCoin(id,coingeckoApi.getTokenDetailNyTokenId(id))
-    return JSONResponse(content=jsonable_encoder(result), status_code=status.HTTP_200_OK)
+    key = f"coin_coinid_{id}"
+    if key in const.cache:
+        logger.info (f"return coinid {id} from cache")
+        return JSONResponse(content=jsonable_encoder(const.cache[key]), status_code=status.HTTP_200_OK)
+    else:
+        result = mapHelper.correctCoingeckoCoin(id,coingeckoApi.getTokenDetailNyTokenId(id))
+        const.cache[key] = jsonable_encoder(const.cache[key])
+        return JSONResponse(content=jsonable_encoder(result), status_code=status.HTTP_200_OK)
 
 
 @app.get("/api/v1/coins/{platform}/contract/{contract}")
 def getCoinByNetworkAndContract(platform : str,contract: str):
-    coinId = mapHelper.getCoinIdOfContract(contract)
-    result = mapHelper.correctCoingeckoCoin(coinId,coingeckoApi.getTokenDetailNyTokenId(coinId))
-    return JSONResponse(content=jsonable_encoder(result), status_code=status.HTTP_200_OK)
+    key = f"coin_platform_contract_{platform}_{contract}"
+    if key in const.cache:
+        logger.info (f"return coin_platform_contract {platform} {contract} from cache")
+        return JSONResponse(content=jsonable_encoder(const.cache[key]), status_code=status.HTTP_200_OK)
+    else:
+        coinId = mapHelper.getCoinIdOfContract(contract)
+        result = mapHelper.correctCoingeckoCoin(coinId,coingeckoApi.getTokenDetailNyTokenId(coinId))
+        const.cache[key] = result
+        return JSONResponse(content=jsonable_encoder(result), status_code=status.HTTP_200_OK)
 
 
 @app.get("/api/v1/simple/token_price/{platform}")
