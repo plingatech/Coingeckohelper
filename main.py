@@ -101,7 +101,7 @@ def getCoin(platform, vs_currencies, contract_addresses):
         rawRes = coingeckoApi.getCoinPrice(queryStr)
         result = mapHelper.chagePriceResultForblockscout(rawRes)
         const.cache[key] = jsonable_encoder(result)
-        return Response(content=result, media_type='application/json')
+        return JSONResponse(content=jsonable_encoder(result), status_code=status.HTTP_200_OK)
 
 
 
